@@ -242,10 +242,11 @@ createReferenceSetFromCounts <- function( binned.counts.file, outcomes,
     ratios.order <- order(ratios.df[,1]) 
     low.corr.samples <- ratios.df[which(ratios.df$corr < 0.8), 2] 
     
-    if (removeOutlierSamples == FALSE) { 
+    if (removeOutlierSamples == FALSE & length(low.corr.samples) > 0) { 
        message("Samples with correlation to the mean bin counts of < 0.8. You may want to remove these from the reference set.") 
-       print(low.corr.samples) 
-    } else {
+       print(low.corr.samples)
+   }
+    if (removeOutlierSamples == TRUE & length(low.corr.samples) > 0) {
        if(length(discard.pos) >0) {
           cleaned.good.ratios <- cleaned.good.ratios[-which(sampleIDs[-discard.pos] %in% low.corr.samples),]
        } else { 
